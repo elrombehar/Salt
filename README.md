@@ -1,6 +1,6 @@
 # Salt
 
-There are 2 project = one in .Net c# and one in Go
+There are 2 projects : one in .Net c# and one in Go
 Go project is under go-validator folder.
 To run the Go project:
 
