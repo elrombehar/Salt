@@ -1,0 +1,195 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/models/load": {
+            "post": {
+                "description": "Loads API models defenitions into memory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Load models",
+                "parameters": [
+                    {
+                        "description": "Model List",
+                        "name": "models",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.EpModelDefenition"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/requests/validate": {
+            "post": {
+                "description": "Validate incoming request against model",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Validate request",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.EpRequestData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ValidationResult"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.EpModelDefenition": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ParameterDefenition"
+                    }
+                },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ParameterDefenition"
+                    }
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "query_params": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ParameterDefenition"
+                    }
+                }
+            }
+        },
+        "models.EpRequestData": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.RequestParameterDefenition"
+                    }
+                },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.RequestParameterDefenition"
+                    }
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "query_params": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.RequestParameterDefenition"
+                    }
+                }
+            }
+        },
+        "models.ParameterDefenition": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.RequestParameterDefenition": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {}
+            }
+        },
+        "models.ValidationMismatch": {
+            "type": "object",
+            "properties": {
+                "expected_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "field": {
+                    "type": "string"
+                },
+                "provided_value": {},
+                "reason": {
+                    "type": "string"
+                },
+                "section": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ValidationResult": {
+            "type": "object",
+            "properties": {
+                "abnormal_fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ValidationMismatch"
+                    }
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

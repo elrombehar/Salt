@@ -1,0 +1,126 @@
+definitions:
+  models.EpModelDefenition:
+    properties:
+      body:
+        items:
+          $ref: '#/definitions/models.ParameterDefenition'
+        type: array
+      headers:
+        items:
+          $ref: '#/definitions/models.ParameterDefenition'
+        type: array
+      method:
+        type: string
+      path:
+        type: string
+      query_params:
+        items:
+          $ref: '#/definitions/models.ParameterDefenition'
+        type: array
+    type: object
+  models.EpRequestData:
+    properties:
+      body:
+        items:
+          $ref: '#/definitions/models.RequestParameterDefenition'
+        type: array
+      headers:
+        items:
+          $ref: '#/definitions/models.RequestParameterDefenition'
+        type: array
+      method:
+        type: string
+      path:
+        type: string
+      query_params:
+        items:
+          $ref: '#/definitions/models.RequestParameterDefenition'
+        type: array
+    type: object
+  models.ParameterDefenition:
+    properties:
+      name:
+        type: string
+      required:
+        type: boolean
+      types:
+        items:
+          type: string
+        type: array
+    type: object
+  models.RequestParameterDefenition:
+    properties:
+      name:
+        type: string
+      value: {}
+    type: object
+  models.ValidationMismatch:
+    properties:
+      expected_types:
+        items:
+          type: string
+        type: array
+      field:
+        type: string
+      provided_value: {}
+      reason:
+        type: string
+      section:
+        type: string
+    type: object
+  models.ValidationResult:
+    properties:
+      abnormal_fields:
+        items:
+          $ref: '#/definitions/models.ValidationMismatch'
+        type: array
+      status:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /models/load:
+    post:
+      consumes:
+      - application/json
+      description: Loads API models defenitions into memory
+      parameters:
+      - description: Model List
+        in: body
+        name: models
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.EpModelDefenition'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: {}
+            type: object
+      summary: Load models
+  /requests/validate:
+    post:
+      consumes:
+      - application/json
+      description: Validate incoming request against model
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.EpRequestData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ValidationResult'
+      summary: Validate request
+swagger: "2.0"
