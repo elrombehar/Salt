@@ -399,3 +399,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+go-validator/go.sum
+go-validator/go.mod
+go-validator/docs/swagger.yaml
+go-validator/docs/swagger.json
+go-validator/docs/docs.go
